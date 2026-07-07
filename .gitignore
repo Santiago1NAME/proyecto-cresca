@@ -1,0 +1,68 @@
+# ===========================================
+# SEGURIDAD - Archivos sensibles y secretos
+# ===========================================
+.env
+.env.*
+!.env.example
+!.env.example.*
+
+# Certificados y llaves privadas
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+
+# Credenciales y tokens
+credentials.json
+service-account*.json
+secrets.json
+token.json
+*.token
+
+# ===========================================
+# DEPENDENCIAS
+# ===========================================
+node_modules/
+
+# ===========================================
+# BUILD ARTIFACTS
+# ===========================================
+# Backend (NestJS)
+dist/
+build/
+
+# Frontend (Next.js)
+.next/
+out/
+.vercel
+
+# ===========================================
+# TYPESCRIPT
+# ===========================================
+*.tsbuildinfo
+
+# ===========================================
+# LOGS
+# ===========================================
+*.log
+pnpm-debug.log*
+
+# ===========================================
+# TESTING
+# ===========================================
+coverage/
+
+# ===========================================
+# IDE - VSCode
+# ===========================================
+.vscode/*
+!.vscode/extensions.json
+
+# ===========================================
+# OS FILES
+# ===========================================
+.DS_Store
+Thumbs.db
+Desktop.ini
