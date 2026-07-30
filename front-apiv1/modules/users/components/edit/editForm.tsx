@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 const EditForm = async ({ idUser, isEdit }: { idUser: number; isEdit: boolean }) => {
     const token = await getToken();
-    const user = await requestGet(`http://localhost:3000/api/v1/users/${idUser}`, { token: token || "" });
+    const user = await requestGet(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${idUser}`, { token: token || "" });
 
     if (user.statusCode === 403) {
         redirect("/unauthorized");

@@ -45,10 +45,10 @@ async function bootstrap() {
   );
 
   await app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3001',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

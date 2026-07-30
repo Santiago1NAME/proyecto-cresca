@@ -1,0 +1,43 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cresca-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend-api:
+    build: ./backend-api
+    container_name: cresca-backend
+    ports:
+      - "3000:3000"
+    env_file: ./backend-api/.env
+    environment:
+      - MYSQL_HOST=mysql
+      - NODE_ENV=production
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  front-apiv1:
+    build: ./front-apiv1
+    container_name: cresca-frontend
+    ports:
+      - "3001:3000"
+    args:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    depends_on:
+      - backend-api
+
+volumes:
+  mysql_data:

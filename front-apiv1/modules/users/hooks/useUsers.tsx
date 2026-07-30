@@ -10,7 +10,7 @@ export const useUsers = () => {
     const loadUsers = async () => {
         const token = await getToken();
         const data = await requestGet(
-            `http://localhost:3000/api/v1/users/?page=${page}&limit=${cantItems}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/?page=${page}&limit=${cantItems}`,
             { token: token || "" }
         );
         setUsers(data);

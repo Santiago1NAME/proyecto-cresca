@@ -39,7 +39,7 @@ const EditFormClient = ({ idUser, defaultValues, isEdit }: { idUser:number, defa
 
         const token = await getToken();
 
-        const response = await requestFetch(payload, `http://localhost:3000/api/v1/users/${ idUser }`, "PATCH", { token: token || "" });
+        const response = await requestFetch(payload, `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${ idUser }`, "PATCH", { token: token || "" });
 
         if (response.error) {
             toast.error(response.message, { position: "bottom-right" });

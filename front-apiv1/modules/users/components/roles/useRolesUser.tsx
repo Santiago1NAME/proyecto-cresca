@@ -45,7 +45,7 @@ export const useRolesUser = (idUser: number) => {
         const payload = { roles: data.roles };
         const token = await getToken();
 
-        const response = await requestFetch(payload, `http://localhost:3000/api/v1/users/${idUser}/role`, "PATCH", { token: token || "" });
+        const response = await requestFetch(payload, `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${idUser}/role`, "PATCH", { token: token || "" });
         if (response.error) {
             toast.error(response.message, { position: "bottom-right" });
             return;
@@ -61,7 +61,7 @@ export const useRolesUser = (idUser: number) => {
             try {
                 const token = await getToken();
                 const dataUser = await requestGet(
-                    `http://localhost:3000/api/v1/users/${idUser}`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${idUser}`,
                     { token: token || "" }
                 );
                 const userRoles: UserRole[] = dataUser.data.user.userRoles;

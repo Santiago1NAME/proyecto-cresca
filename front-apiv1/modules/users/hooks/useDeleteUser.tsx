@@ -13,7 +13,7 @@ export const useDeleteUser = (onSuccess: () => void) => {
         try {
             const token = await getToken();
             await requestDelete(
-                `http://localhost:3000/api/v1/users/${userToDelete}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${userToDelete}`,
                 { token: token || "" }
             );
             toast.success("Usuario eliminado correctamente");
