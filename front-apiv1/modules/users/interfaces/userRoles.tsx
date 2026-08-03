@@ -1,9 +1,9 @@
 interface UserRole {
-    id: number;
-    idUser: number;
-    idRol: number;
+    id: string;
+    idUser: string;
+    idRol: string;
     role: {
-        id: number;
+        id: string;
         modulo: string;
         rol: string;
     };

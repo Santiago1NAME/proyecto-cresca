@@ -59,7 +59,7 @@ const EditFormClient = ({ idUser, defaultValues, isEdit }: { idUser:number, defa
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-4 my-4">
-                <Controller className="w-full" name="firstName" control={form.control} render={({field, fieldState}) => (
+                <Controller name="firstName" control={form.control} render={({field, fieldState}) => (
                     <div className="flex-col">
                         <FloatingInput id="firstName" type="text" label="Primer nombre" iconRight={false} field={field} fieldState={fieldState} isEdit={isEdit} />
                         {fieldState.invalid && (
@@ -68,11 +68,11 @@ const EditFormClient = ({ idUser, defaultValues, isEdit }: { idUser:number, defa
                     </div>
                 )}>
                 </Controller>
-                <Controller className="w-full" name="secondName" control={form.control} render={({field, fieldState}) => (
+                <Controller name="secondName" control={form.control} render={({field, fieldState}) => (
                     <FloatingInput id="secondName" type="text" label="Segundo nombre" iconRight={false} field={field} fieldState={fieldState} isEdit={isEdit} />
                 )}>
                 </Controller>
-                <Controller className="w-full" name="firstLastName" control={form.control} render={({field, fieldState}) => (
+                <Controller name="firstLastName" control={form.control} render={({field, fieldState}) => (
                     <div className="flex-col">
                         <FloatingInput id="firstLastName" type="text" label="Primer apellido" iconRight={false} field={field} fieldState={fieldState} isEdit={isEdit} />
                         {fieldState.invalid && (
@@ -81,7 +81,7 @@ const EditFormClient = ({ idUser, defaultValues, isEdit }: { idUser:number, defa
                     </div>
                 )}>
                 </Controller>
-                <Controller className="w-full" name="secondLastName" control={form.control} render={({field, fieldState}) => (
+                <Controller name="secondLastName" control={form.control} render={({field, fieldState}) => (
                     <FloatingInput id="secondLastName" type="text" label="Segundo apellido" iconRight={false} field={field} fieldState={fieldState} isEdit={isEdit} />
                 )}>
                 </Controller>
@@ -96,7 +96,7 @@ const EditFormClient = ({ idUser, defaultValues, isEdit }: { idUser:number, defa
                     )}>
                     </Controller>
                 </div>
-                <Controller className="w-full" name="typeDoc" control={form.control} render={({field, fieldState}) => (
+                <Controller name="typeDoc" control={form.control} render={({field, fieldState}) => (
                     <div className="flex-col">
                         <FloatingSelect id="typeDoc" label="Tipo de documento" icon="/email.svg" iconRight={false} field={field} fieldState={fieldState} options={options} isEdit={isEdit} />
                         {fieldState.invalid && (
@@ -105,7 +105,7 @@ const EditFormClient = ({ idUser, defaultValues, isEdit }: { idUser:number, defa
                     </div>
                 )}>
                 </Controller>
-                <Controller className="w-full" name="numDoc" control={form.control} render={({field, fieldState}) => (
+                <Controller name="numDoc" control={form.control} render={({field, fieldState}) => (
                     <div className="flex-col">
                         <FloatingInput id="numDoc" type="text" label="Número de documento" iconRight={false} field={field} fieldState={fieldState} isEdit={isEdit} />
                         {fieldState.invalid && (

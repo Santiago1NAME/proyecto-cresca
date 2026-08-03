@@ -31,16 +31,19 @@ export function NavMain({
     groups,
 }: {
     groups: {
-        label: string
+        label: string,
+        permission: string[],
         items: {
             title: string
-            url: string
+            url: string,
+            permission: string[],
             icon?: LucideIcon
             isActive?: boolean
             badge?: string
             items?: {
                 title: string
-                url: string
+                url: string,
+                permission: string[],
             }[]
         }[]
     }[]

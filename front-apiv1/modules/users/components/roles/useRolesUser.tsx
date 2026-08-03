@@ -26,7 +26,7 @@ export const useRolesUser = (idUser: number) => {
     const [activeModules, setActiveModules] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
 
-    const form = useForm({ defaultValues: { roles: [] as number[] } });
+    const form = useForm({ defaultValues: { roles: [] as string[] } });
 
     const subRoles = useMemo(() => calcularSubRoles(activeModules), [activeModules]);
 
@@ -41,7 +41,7 @@ export const useRolesUser = (idUser: number) => {
         fieldOnChange(roles);
     };
 
-    const onSubmit = async(data: { roles: number[] }) => {
+    const onSubmit = async(data: { roles: string[] }) => {
         const payload = { roles: data.roles };
         const token = await getToken();
 

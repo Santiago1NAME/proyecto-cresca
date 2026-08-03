@@ -1,6 +1,6 @@
 import { Switch } from "@/components/ui/switch";
 
-type SubRoles = Record<string, Record<string, number>>;
+type SubRoles = Record<string, Record<string, string>>;
 
 const SubRoles = ({
     subRoles,
@@ -8,11 +8,11 @@ const SubRoles = ({
     onChange,
 }: {
     subRoles: SubRoles;
-    checkedRoles?: number[];
-    onChange?: (roles: number[]) => void;
+    checkedRoles?: string[];
+    onChange?: (roles: string[]) => void;
 }) => {
 
-    const handleSwitch = (valor: number, checked: boolean) => {
+    const handleSwitch = (valor: string, checked: boolean) => {
         const updated = checked
             ? [...checkedRoles, valor]
             : checkedRoles.filter(r => r !== valor);
