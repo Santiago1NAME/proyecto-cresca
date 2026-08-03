@@ -10,33 +10,40 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   backend-api:
-    build: ./backend-api
+    build:
+      context: ./backend-api
+      dockerfile: Dockerfile.dev
     container_name: cresca-backend
     ports:
       - "3000:3000"
-    env_file: ./backend-api/.env
+    env_file:
+      - ./backend-api/.env
     environment:
-      - MYSQL_HOST=mysql
-      - NODE_ENV=production
+      MYSQL_HOST: mysql
+      NODE_ENV: development
+    volumes:
+      - ./backend-api:/app
+      - /app/node_modules
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
 
   front-apiv1:
     build:
       context: ./front-apiv1
-      args:
-        NEXT_PUBLIC_API_URL: http://localhost:3000
+      dockerfile: Dockerfile.dev
     container_name: cresca-frontend
     ports:
       - "3001:3000"
+    environment:
+      NODE_ENV: development
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+    volumes:
+      - ./front-apiv1:/app
+      - /app/node_modules
     depends_on:
       - backend-api
 

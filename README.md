@@ -63,6 +63,90 @@
 
 ---
 
+## Docker
+
+### Prerrequisitos
+
+- Docker >= 24
+- Docker Compose >= 2.20
+
+### Variables de Entorno
+
+El proyecto utiliza un archivo `.env` en la raíz para la configuración de Docker Compose:
+
+| Variable | Descripción | Ejemplo |
+|----------|------------|---------|
+| `MYSQL_PASSWORD` | Contraseña de MySQL | `password` |
+| `MYSQL_DATABASE` | Nombre de la base de datos | `cresca_db` |
+
+> Las demás variables de conexión (`MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`) se configuran directamente en los archivos `docker-compose*.yml` y en el `.env` de cada servicio.
+
+### Desarrollo con Docker (Recomendado)
+
+Ejecuta el entorno completo con hot-reload para desarrollo:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+| Servicio | Puerto | Descripción |
+|----------|--------|-------------|
+| `cresca-mysql` | `3306` | MySQL 8.0 |
+| `cresca-backend` | `3000` | API NestJS con hot-reload |
+| `cresca-frontend` | `3001` | Dashboard Next.js con hot-reload |
+
+Para detener y limpiar:
+
+```bash
+docker compose -f docker-compose.dev.yml down -v
+```
+
+### Producción con Docker
+
+Ejecuta el entorno optimizado para producción:
+
+```bash
+docker compose up --build -d
+```
+
+- **Backend**: Multi-stage build con producción optimizada
+- **Frontend**: Build standalone de Next.js
+- **MySQL**: Con healthcheck y persistencia en volumen `mysql_data`
+- **Inicialización**: Se ejecuta `mysql/init.sql` automáticamente al crear el contenedor
+
+Para detener y limpiar:
+
+```bash
+docker compose down -v
+```
+
+### Contenedores
+
+| Contenedor | Puerto | Descripción |
+|-----------|--------|-------------|
+| `cresca-mysql` | `3306` | Base de datos MySQL 8.0 |
+| `cresca-backend` | `3000` | API NestJS |
+| `cresca-frontend` | `3001` | Dashboard Next.js |
+
+### Archivos Docker del Proyecto
+
+```
+├── docker-compose.yml          # Composición de producción
+├── docker-compose.dev.yml      # Composición de desarrollo
+├── mysql/
+│   └── init.sql                # Inicialización de la BD
+├── backend-api/
+│   ├── Dockerfile              # Build multi-stage producción
+│   ├── Dockerfile.dev          # Build desarrollo
+│   └── .dockerignore
+└── front-apiv1/
+    ├── Dockerfile              # Build multi-stage producción
+    ├── Dockerfile.dev          # Build desarrollo
+    └── .dockerignore
+```
+
+---
+
 ## Backend API (`backend-api/`)
 
 ### Arquitectura Hexagonal

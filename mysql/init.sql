@@ -82,7 +82,7 @@ CREATE TABLE `users_lst` (
 
 LOCK TABLES `users_lst` WRITE;
 /*!40000 ALTER TABLE `users_lst` DISABLE KEYS */;
-INSERT INTO `users_lst` VALUES ('edwin uribe santiago uribe','esanti1020@gmail.com','CC','12321432','$2b$10$PcvlTnWdgddxfxIhT1L68Obs/23yB/1H98vlw.LJuU1LuQAsr9yjy','d6d810de-657f-4d58-8ec3-f67542e12246'),('edwin1','esanti10@gmail.com','CC','12321432','$2b$10$GY40DQ/jW7k4NoKewGcppuU/7/zfMsD57ANLxQaiUxoiokwgB8IxO','e2849e9b-0828-4dd4-9ee0-88022b8d3738'),('edwin1','esanti1022244423@gmail.com','CC','12321432','$2b$10$5/Dr2qFoPDfm2rA6R4FlI.ChslZ8TvZ2iQ0wIWC0cbhtZt/xBDuH.','ec0683e9-3f48-4b27-b587-282bcd5e872d');
+INSERT INTO `users_lst` VALUES ('Prueba 1','prueba1@gmail.com','CC','12321432','$2b$10$PcvlTnWdgddxfxIhT1L68Obs/23yB/1H98vlw.LJuU1LuQAsr9yjy','d6d810de-657f-4d58-8ec3-f67542e12246'),('Prueba 2','prueba2@gmail.com','CC','12321433','$2b$10$GY40DQ/jW7k4NoKewGcppuU/7/zfMsD57ANLxQaiUxoiokwgB8IxO','e2849e9b-0828-4dd4-9ee0-88022b8d3738'),('Prueba 3','prueba3@gmail.com','CC','12321432','$2b$10$5/Dr2qFoPDfm2rA6R4FlI.ChslZ8TvZ2iQ0wIWC0cbhtZt/xBDuH.','ec0683e9-3f48-4b27-b587-282bcd5e872d');
 /*!40000 ALTER TABLE `users_lst` ENABLE KEYS */;
 UNLOCK TABLES;
 
