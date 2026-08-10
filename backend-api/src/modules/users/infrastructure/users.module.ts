@@ -17,6 +17,8 @@ import { RoleEntity } from './out/persistence/typeorm/entities/role.entity';
 import { UserRoleEntity } from './out/persistence/typeorm/entities/user-role.entity';
 import { DeleteUserUseCase } from '../application/use-case/delete-user';
 import { DeleteUserByIdController } from './in/http/delete-user-by-id/delete-user-by-id.controller';
+import { UpdateUserRolesController } from './in/http/update-user-roles/update-user-roles.controller';
+import { UpdateUserRolesUseCase } from '../application/use-case/update-user-roles';
 import { RolesUserPort } from 'src/core/roles/roles-user.port';
 import { RolesUserTypeOrmAdapter } from './out/roles/roles-user-typeorm.adapter';
 
@@ -37,6 +39,7 @@ const useCases = [
   FindUserByIdUseCase,
   UpdateUserByIdUseCase,
   DeleteUserUseCase,
+  UpdateUserRolesUseCase,
 ];
 
 @Module({
@@ -49,6 +52,7 @@ const useCases = [
     FindUserByIdController,
     UpdateUserByIdController,
     DeleteUserByIdController,
+    UpdateUserRolesController,
   ],
   providers: [
     ...useCases,

@@ -7,6 +7,7 @@ export interface PrimitiveUser {
     password: string;
     userRoles?: Array<{
         role: {
+            id: string;
             modulo: string;
             rol: string;
         };
