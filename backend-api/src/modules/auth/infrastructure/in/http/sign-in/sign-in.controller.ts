@@ -5,11 +5,11 @@ import { Public } from 'src/core/auth/public.decorator';
 
 @Controller('auth')
 export class SignInController {
-    constructor(private readonly signInUseCase: SignInUseCase) {}
+  constructor(private readonly signInUseCase: SignInUseCase) {}
 
-    @Public()
-    @Post('login')
-    async login(@Body() body: SignInHttpDto) {
-        return this.signInUseCase.execute(body);
-    }
+  @Public()
+  @Post('login')
+  async login(@Body() body: SignInHttpDto) {
+    return this.signInUseCase.execute(body);
+  }
 }

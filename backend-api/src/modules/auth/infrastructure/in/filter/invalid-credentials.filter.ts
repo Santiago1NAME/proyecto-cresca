@@ -4,13 +4,13 @@ import { InvalidCredentialsException } from '../../../domain/exception/invalid-c
 
 @Catch(InvalidCredentialsException)
 export class InvalidCredentialsExceptionFilter implements ExceptionFilter {
-    catch(exception: InvalidCredentialsException, host: ArgumentsHost) {
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response>();
+  catch(exception: InvalidCredentialsException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
 
-        response.status(401).json({
-            statusCode: 401,
-            message: exception.message,
-        });
-    }
+    response.status(401).json({
+      statusCode: 401,
+      message: exception.message,
+    });
+  }
 }

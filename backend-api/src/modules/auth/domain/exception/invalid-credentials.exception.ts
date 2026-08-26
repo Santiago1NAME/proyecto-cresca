@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 
 export class InvalidCredentialsException extends UnauthorizedException {
-    constructor() {
-        super('Usuario o contraseña incorrectos');
-    }
+  constructor() {
+    super('Usuario o contraseña incorrectos');
+  }
 }

@@ -1,5 +1,6 @@
 import { SignInUser } from '../interface/sign-in-user';
 
 export abstract class UserFinderPort {
-    abstract findByEmail(email: string): Promise<SignInUser | null>;
+  abstract findByEmail(email: string): Promise<SignInUser | null>;
+  abstract findById(id: string): Promise<SignInUser | null>;
 }
