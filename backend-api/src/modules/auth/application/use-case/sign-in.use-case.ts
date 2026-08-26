@@ -9,35 +9,36 @@ import { InvalidCredentialsException } from '../../domain/exception/invalid-cred
 
 @Injectable()
 export class SignInUseCase {
-    constructor(
-        @Inject(UserFinderPort)
-        private readonly userFinder: UserFinderPort,
-        private readonly passwordVerifier: PasswordVerifierRepository,
-        private readonly jwtService: JwtService,
-    ) {}
+  constructor(
+    @Inject(UserFinderPort)
+    private readonly userFinder: UserFinderPort,
+    private readonly passwordVerifier: PasswordVerifierRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
-    async execute(dto: SignInDto): Promise<SignInResponse> {
-        const userValue = await this.userFinder.findByEmail(dto.email);
-        if (!userValue) {
-            throw new UserNotFoundAuthException(dto.email);
-        }
-
-        const isMatch = await this.passwordVerifier.verify(dto.password, userValue.password);
-        if (!isMatch) {
-            throw new InvalidCredentialsException();
-        }
-
-        const listaRoles = [
-            ...new Set(userValue.userRoles?.map(u => u.role.modulo) ?? []),
-            ...(userValue.userRoles?.map(u => u.role.rol) ?? [])
-        ];
-
-        const { password: _, userRoles: __, ...userWithoutPassword } = userValue;
-
-        const payload = { sub: userValue.id, user: userWithoutPassword, roles: listaRoles };
-
-        return {
-            access_token: await this.jwtService.signAsync(payload),
-        };
+  async execute(dto: SignInDto): Promise<SignInResponse> {
+    const userValue = await this.userFinder.findByEmail(dto.email);
+    if (!userValue) {
+      throw new UserNotFoundAuthException(dto.email);
     }
+
+    const isMatch = await this.passwordVerifier.verify(
+      dto.password,
+      userValue.password,
+    );
+    if (!isMatch) {
+      throw new InvalidCredentialsException();
+    }
+
+    const listaRoles = [
+      ...new Set(userValue.userRoles?.map((u) => u.role.modulo) ?? []),
+      ...(userValue.userRoles?.map((u) => u.role.rol) ?? []),
+    ];
+
+    const payload = { sub: userValue.id, roles: listaRoles };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 }

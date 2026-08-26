@@ -12,32 +12,32 @@ import { AuthGuard } from './in/guard/auth.guard';
 import { UsersModule } from 'src/modules/users/infrastructure/users.module';
 
 @Module({
-    imports: [
-        UsersModule,
-        JwtModule.register({
-            global: true,
-            secret: process.env.JWT_SECRET || 'defaultSecretKey',
-            signOptions: { expiresIn: '1h' },
-        }),
-    ],
-    controllers: [SignInController],
-    providers: [
-        SignInUseCase,
-        {
-            provide: UserFinderPort,
-            useFactory: (userRepository: UserRepository) => {
-                return new UserTypeOrmUserFinderAdapter(userRepository);
-            },
-            inject: [UserRepository],
-        },
-        {
-            provide: PasswordVerifierRepository,
-            useClass: BcryptPasswordVerifier,
-        },
-        {
-            provide: APP_GUARD,
-            useClass: AuthGuard,
-        },
-    ],
+  imports: [
+    UsersModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
+  controllers: [SignInController],
+  providers: [
+    SignInUseCase,
+    {
+      provide: UserFinderPort,
+      useFactory: (userRepository: UserRepository) => {
+        return new UserTypeOrmUserFinderAdapter(userRepository);
+      },
+      inject: [UserRepository],
+    },
+    {
+      provide: PasswordVerifierRepository,
+      useClass: BcryptPasswordVerifier,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AuthModule {}
