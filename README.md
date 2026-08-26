@@ -252,10 +252,13 @@ El servidor arranca en `http://localhost:3000` con prefijo global `/api/v1`.
 | Método | Ruta | Descripción | Auth |
 |--------|------|-------------|------|
 | `POST` | `/api/v1/auth/login` | Iniciar sesión | No |
+| `POST` | `/api/v1/auth/refresh` | Refrescar tokens | No |
+| `POST` | `/api/v1/auth/logout` | Cerrar sesión | Sí |
 | `POST` | `/api/v1/users` | Crear usuario | Sí |
 | `GET` | `/api/v1/users` | Listar usuarios | Sí |
 | `GET` | `/api/v1/users/:id` | Obtener usuario por ID | Sí |
 | `PATCH` | `/api/v1/users/:id` | Actualizar usuario | Sí |
+| `PATCH` | `/api/v1/users/:id/role` | Actualizar roles | Sí |
 | `DELETE` | `/api/v1/users/:id` | Eliminar usuario | Sí |
 | `GET` | `/api/v1/reserva` | Listar reservas | Sí |
 | `POST` | `/api/v1/reserva` | Crear reserva | Sí |
