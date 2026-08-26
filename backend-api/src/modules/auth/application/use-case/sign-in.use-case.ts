@@ -8,6 +8,7 @@ import { SignInDto } from '../dto/sign-in.dto';
 import { SignInResponse } from '../../domain/interface/sign-in-response';
 import { UserNotFoundAuthException } from '../../domain/exception/user-not-found-auth.exception';
 import { InvalidCredentialsException } from '../../domain/exception/invalid-credentials.exception';
+import { AuditService } from 'src/core/audit/audit.service';
 
 @Injectable()
 export class SignInUseCase {
@@ -18,11 +19,17 @@ export class SignInUseCase {
     private readonly jwtService: JwtService,
     @Inject(RefreshTokenPort)
     private readonly refreshTokenPort: RefreshTokenPort,
+    private readonly auditService: AuditService,
   ) {}
 
-  async execute(dto: SignInDto): Promise<SignInResponse> {
+  async execute(dto: SignInDto, ip?: string): Promise<SignInResponse> {
     const userValue = await this.userFinder.findByEmail(dto.email);
     if (!userValue) {
+      await this.auditService.logAuthFailure({
+        action: 'login_fallido_usuario_no_encontrado',
+        ip: ip ?? '',
+        email: dto.email,
+      });
       throw new UserNotFoundAuthException(dto.email);
     }
 
@@ -31,6 +38,11 @@ export class SignInUseCase {
       userValue.password,
     );
     if (!isMatch) {
+      await this.auditService.logAuthFailure({
+        action: 'login_fallido_credenciales_invalidas',
+        ip: ip ?? '',
+        email: dto.email,
+      });
       throw new InvalidCredentialsException();
     }
 
