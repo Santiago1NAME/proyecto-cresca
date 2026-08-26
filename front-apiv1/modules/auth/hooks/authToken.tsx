@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { saveToken, clearToken, getTokenPayload } from "@/core/actions/auth";
+import { saveToken, clearAllTokens, getTokenPayload } from "@/core/actions/auth";
 
 interface TokenState {
   roles: string[];
   user: string;
   hydrated: boolean;
-  setToken: (token: string) => Promise<void>;
+  setToken: (accessToken: string, refreshToken?: string) => Promise<void>;
   clearToken: () => Promise<void>;
   hydrate: () => Promise<void>;
 }
@@ -15,13 +15,13 @@ const useTokenStore = create<TokenState>()((set) => ({
   user: "",
   hydrated: false,
 
-  setToken: async (token: string) => {
-    const { roles, user } = await saveToken(token);
+  setToken: async (accessToken: string, refreshToken?: string) => {
+    const { roles, user } = await saveToken(accessToken, refreshToken);
     set({ roles, user });
   },
 
   clearToken: async () => {
-    await clearToken();
+    await clearAllTokens();
     set({ roles: [], user: "", hydrated: false });
   },
 

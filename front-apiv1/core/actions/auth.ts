@@ -3,19 +3,76 @@
 import { cookies } from "next/headers";
 import getJWT from "@/core/services/getJWT";
 
-export async function saveToken(token: string) {
-  const payload = getJWT(token) as any;
+export async function saveToken(accessToken: string, refreshToken?: string) {
+  const payload = getJWT(accessToken) as any;
 
-  (await cookies()).set("token", token, {
-    httpOnly: true,   // 🔒 JS no puede leerla
+  (await cookies()).set("token", accessToken, {
+    httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 60 * 60, // 7 días en segundos
+    maxAge: 60 * 15, // 15 minutos
     path: "/",
   });
 
-  // Los roles sí pueden ir en el store cliente (no son sensibles)
+  if (refreshToken) {
+    (await cookies()).set("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7, // 7 días
+      path: "/",
+    });
+  }
+
   return payload?.roles || [];
+}
+
+export async function refreshAccessToken(): Promise<string | null> {
+  const refreshToken = (await cookies()).get("refresh_token")?.value;
+  if (!refreshToken) return null;
+
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const response = await fetch(`${apiUrl}/api/v1/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const newAccessToken = data.data?.access_token;
+    const newRefreshToken = data.data?.refresh_token;
+
+    if (newAccessToken) {
+      (await cookies()).set("token", newAccessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 60 * 15,
+        path: "/",
+      });
+    }
+    if (newRefreshToken) {
+      (await cookies()).set("refresh_token", newRefreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 7,
+        path: "/",
+      });
+    }
+
+    return newAccessToken;
+  } catch {
+    return null;
+  }
+}
+
+export async function clearAllTokens() {
+  (await cookies()).delete("token");
+  (await cookies()).delete("refresh_token");
 }
 
 export async function clearToken() {
@@ -35,7 +92,7 @@ export async function getTokenPayload() {
   };
 }
 
-export async function getToken(){
+export async function getToken() {
   const token = (await cookies()).get("token")?.value;
   return token || null;
 }

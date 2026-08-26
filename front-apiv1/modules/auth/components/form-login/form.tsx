@@ -29,7 +29,7 @@ const FormLogin = () => {
             toast.error(response.message, { position: "bottom-right" });
             return;
         }
-        await setToken(response.data.access_token);
+        await setToken(response.data.access_token, response.data.refresh_token);
         redirect('/dashboard', RedirectType.push);
     }
 

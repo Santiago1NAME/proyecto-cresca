@@ -29,7 +29,9 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
+    const token =
+      this.extractTokenFromHeader(request) ??
+      this.extractTokenFromCookie(request);
     if (!token) {
       throw new UnauthorizedException(
         'No se proporcionó token de autenticación',
@@ -64,9 +66,14 @@ export class AuthGuard implements CanActivate {
 
     return true;
   }
-
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers['authorization']?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
+  }
+
+  private extractTokenFromCookie(request: Request): string | undefined {
+    const cookies = request.headers['cookie']?.split(';') ?? [];
+    const tokenCookie = cookies.find((c) => c.trim().startsWith('token='));
+    return tokenCookie?.split('=')[1]?.trim();
   }
 }

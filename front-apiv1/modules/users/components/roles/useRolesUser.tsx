@@ -45,7 +45,6 @@ export const useRolesUser = (idUser: number) => {
         const payload = { roles: data.roles };
         const token = await getToken();
 
-        console.log("Submitting roles for user:", idUser, "with payload:", payload);
         const response = await requestFetch(payload, `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${idUser}/role`, "PATCH", { token: token || "" });
         if (response.error) {
             toast.error(response.message, { position: "bottom-right" });
@@ -65,13 +64,10 @@ export const useRolesUser = (idUser: number) => {
                     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/${idUser}`,
                     { token: token || "" }
                 );
-                console.log("dataUser fetched:", dataUser);
                 const userRoles: UserRole[] = dataUser.data.user.userRoles;
                 const modulos = [...new Set(userRoles.map((r) => r.role.modulo))];
-                console.log("Fetched user data for user:", idUser, "User Roles:", userRoles);
                 const ids = userRoles.map((r) => r.role.id);
 
-                console.log("Fetched roles for user:", idUser, "Modules:", modulos, "Role IDs:", ids);
                 setActiveModules(modulos);
                 form.setValue("roles", ids);
             } catch {
